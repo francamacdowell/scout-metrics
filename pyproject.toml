@@ -66,6 +66,7 @@ module = [
     "tree_sitter_javascript",
     "tree_sitter_typescript",
     "pathspec.*",
+    "tomli",
 ]
 ignore_missing_imports = true
 

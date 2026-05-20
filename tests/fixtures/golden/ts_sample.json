@@ -1,0 +1,225 @@
+{
+  "version": "0.1.dev0+d20260517",
+  "summary": {
+    "files": 2,
+    "sloc": 56,
+    "physical_loc": 71,
+    "logical_loc": 26,
+    "duplication_pct": -1.0,
+    "avg_mi": 50.46
+  },
+  "files": [
+    {
+      "path": "types.ts",
+      "language": "typescript",
+      "physical_loc": 16,
+      "sloc": 13,
+      "logical_loc": 3,
+      "metrics": [
+        {
+          "metric_id": "loc.logical",
+          "file": "types.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 3.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "types.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 16.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "types.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 13.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "types.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 59.037228668099054,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "path": "user_service.ts",
+      "language": "typescript",
+      "physical_loc": 55,
+      "sloc": 43,
+      "logical_loc": 23,
+      "metrics": [
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "InMemoryUserRepository.findById",
+          "line": 6,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "InMemoryUserRepository.findAll",
+          "line": 10,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "InMemoryUserRepository.save",
+          "line": 14,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "InMemoryUserRepository.delete",
+          "line": 19,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "UserService.constructor",
+          "line": 25,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "UserService.createUser",
+          "line": 27,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "UserService.getUser",
+          "line": 33,
+          "value": 2.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "UserService.listAdmins",
+          "line": 41,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "UserService.u",
+          "line": 42,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "UserService.promoteToAdmin",
+          "line": 45,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "user_service.ts",
+          "scope": "function",
+          "symbol": "createDefaultRepository",
+          "line": 52,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.logical",
+          "file": "user_service.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 23.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "user_service.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 55.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "user_service.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 43.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "user_service.ts",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 41.88522717822009,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "repo_metrics": [],
+  "violations": []
+}

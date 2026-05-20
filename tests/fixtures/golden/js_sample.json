@@ -1,0 +1,265 @@
+{
+  "version": "0.1.dev0+d20260517",
+  "summary": {
+    "files": 2,
+    "sloc": 97,
+    "physical_loc": 116,
+    "logical_loc": 77,
+    "duplication_pct": -1.0,
+    "avg_mi": 40.42
+  },
+  "files": [
+    {
+      "path": "calculator.js",
+      "language": "javascript",
+      "physical_loc": 78,
+      "sloc": 67,
+      "logical_loc": 48,
+      "metrics": [
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.constructor",
+          "line": 4,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.add",
+          "line": 9,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.subtract",
+          "line": 15,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.multiply",
+          "line": 21,
+          "value": 2.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.divide",
+          "line": 31,
+          "value": 2.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.clampResult",
+          "line": 40,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.reset",
+          "line": 45,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "Calculator.getValue",
+          "line": 51,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.js",
+          "scope": "function",
+          "symbol": "evaluate",
+          "line": 56,
+          "value": 7.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.logical",
+          "file": "calculator.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 48.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "calculator.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 78.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "calculator.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 67.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "calculator.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 35.69572932973107,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "path": "utils.js",
+      "language": "javascript",
+      "physical_loc": 38,
+      "sloc": 30,
+      "logical_loc": 29,
+      "metrics": [
+        {
+          "metric_id": "cc",
+          "file": "utils.js",
+          "scope": "function",
+          "symbol": "clamp",
+          "line": 5,
+          "value": 3.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.js",
+          "scope": "function",
+          "symbol": "range",
+          "line": 11,
+          "value": 2.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.js",
+          "scope": "function",
+          "symbol": "groupBy",
+          "line": 19,
+          "value": 3.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.js",
+          "scope": "function",
+          "symbol": "debounce",
+          "line": 31,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.js",
+          "scope": "function",
+          "symbol": "",
+          "line": 33,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.js",
+          "scope": "function",
+          "symbol": "",
+          "line": 35,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.logical",
+          "file": "utils.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 29.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "utils.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 38.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "utils.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 30.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "utils.js",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 45.14529424898407,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "repo_metrics": [],
+  "violations": []
+}

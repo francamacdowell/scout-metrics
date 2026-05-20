@@ -1,0 +1,365 @@
+{
+  "version": "0.1.dev0+d20260517",
+  "summary": {
+    "files": 3,
+    "sloc": 146,
+    "physical_loc": 196,
+    "logical_loc": 165,
+    "duplication_pct": -1.0,
+    "avg_mi": 46.29
+  },
+  "files": [
+    {
+      "path": "calculator.py",
+      "language": "python",
+      "physical_loc": 59,
+      "sloc": 43,
+      "logical_loc": 48,
+      "metrics": [
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "Calculator.__init__",
+          "line": 8,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "Calculator.add",
+          "line": 11,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "Calculator.subtract",
+          "line": 16,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "Calculator.multiply",
+          "line": 21,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "Calculator.divide",
+          "line": 26,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "Calculator.clear_history",
+          "line": 33,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "parse_expression",
+          "line": 37,
+          "value": 2.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "calculator.py",
+          "scope": "function",
+          "symbol": "evaluate",
+          "line": 46,
+          "value": 5.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.logical",
+          "file": "calculator.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 48.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "calculator.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 59.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "calculator.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 43.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "calculator.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 46.68783999082059,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "path": "complex_module.py",
+      "language": "python",
+      "physical_loc": 89,
+      "sloc": 69,
+      "logical_loc": 77,
+      "metrics": [
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST.__init__",
+          "line": 18,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST.insert",
+          "line": 21,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST._insert",
+          "line": 27,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST.search",
+          "line": 39,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST._search",
+          "line": 42,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST.inorder",
+          "line": 51,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "BST._inorder",
+          "line": 56,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "complex_module.py",
+          "scope": "function",
+          "symbol": "classify_number",
+          "line": 64,
+          "value": 9.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.logical",
+          "file": "complex_module.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 77.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "complex_module.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 89.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "complex_module.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 69.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "complex_module.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 38.228375009498365,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "path": "utils.py",
+      "language": "python",
+      "physical_loc": 48,
+      "sloc": 34,
+      "logical_loc": 40,
+      "metrics": [
+        {
+          "metric_id": "cc",
+          "file": "utils.py",
+          "scope": "function",
+          "symbol": "slugify",
+          "line": 8,
+          "value": 1.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.py",
+          "scope": "function",
+          "symbol": "chunk",
+          "line": 17,
+          "value": 4.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.py",
+          "scope": "function",
+          "symbol": "flatten",
+          "line": 31,
+          "value": 3.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "cc",
+          "file": "utils.py",
+          "scope": "function",
+          "symbol": "clamp",
+          "line": 42,
+          "value": 3.0,
+          "threshold": 15.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.logical",
+          "file": "utils.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 40.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.physical",
+          "file": "utils.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 48.0,
+          "threshold": null,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "loc.sloc",
+          "file": "utils.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 34.0,
+          "threshold": 500.0,
+          "severity": "ok"
+        },
+        {
+          "metric_id": "mi",
+          "file": "utils.py",
+          "scope": "file",
+          "symbol": null,
+          "line": null,
+          "value": 53.95426967259166,
+          "threshold": 20.0,
+          "severity": "ok"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "repo_metrics": [],
+  "violations": []
+}

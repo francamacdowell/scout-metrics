@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Tools
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Distribution
+*.whl
+*.tar.gz
+
+# Test artifacts
+tests/fixtures/golden/.tmp/
+
+# IDE / local tooling
+.DS_Store
+.idea/
+.vscode/
+*.sw[po]
+.claude/
+
+# Profiling
+profile.svg
+*.prof
+

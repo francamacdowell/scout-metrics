@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "scout-metrics"
+dynamic = ["version"]
+description = "Static code-quality metrics (CC, Cognitive, Halstead, MI, LOC, Duplication, CBO, LCOM) for Python, JS, and TypeScript."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.12,<1.0",
+    "rich>=13.7,<14.0",
+    "radon>=6.0,<7.0",
+    "cognitive_complexity>=1.3,<2.0",
+    "lizard>=1.17,<2.0",
+    "tree-sitter>=0.23,<0.26",
+    "tree-sitter-python>=0.23,<0.26",
+    "tree-sitter-javascript>=0.23,<0.26",
+    "tree-sitter-typescript>=0.23,<0.26",
+    "pathspec>=0.12,<1.0",
+    'tomli>=2.0,<3.0; python_version < "3.11"',
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=4.1",
+    "pytest-xdist>=3.5",
+    "mypy>=1.10",
+    "ruff>=0.5",
+    "py-spy>=0.3",
+]
+
+[project.scripts]
+scout = "scout.cli:app"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scout"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = ["tests/fixtures/repos/perf_sample_py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "RUF"]
+ignore = ["E501", "B008"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+files = ["src/scout"]
+
+[[tool.mypy.overrides]]
+module = [
+    "radon.*",
+    "lizard.*",
+    "cognitive_complexity.*",
+    "tree_sitter",
+    "tree_sitter_python",
+    "tree_sitter_javascript",
+    "tree_sitter_typescript",
+    "pathspec.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["perf: performance smoke tests (excluded from default run)"]
+addopts = "-m 'not perf'"
+
+[tool.coverage.run]
+source = ["src/scout"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 85
+exclude_lines = ["if TYPE_CHECKING:", "raise NotImplementedError", "@overload"]
+
+[tool.scout]
+metrics = ["cc", "cognitive", "loc", "mi", "cbo", "lcom"]
+exclude = ["tests/fixtures/repos/perf_sample_py"]
+
+[tool.scout.thresholds]
+cc = 15.0
+cognitive = 15.0
+mi = 20.0
+loc = 500.0
+cbo = 10.0
+lcom = 3.0

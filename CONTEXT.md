@@ -40,6 +40,10 @@ Two protocols defined by *what they consume*. A `FileMetric` consumes one `Parse
 **FileReport** / **RunReport**:
 A `FileReport` is the per-file aggregation (ParsedFile + all MetricValues for that file). A `RunReport` is the whole-run aggregation (all FileReports + repo metrics + violations + summary).
 
+**Phase**:
+A named, user-observable stage of a single `scout` invocation. The three phases that surface in the UI are **Discovering files** (walking the project root), **Computing file metrics** (running every `FileMetric` over every `ParsedFile`), and **Computing duplication** (the lone `RepoMetric` in v0.1). Aggregation and report-writing are phases of the pipeline but are too fast to surface visually. Phases are observation points, not execution boundaries — the underlying pipeline did not change when phases were named.
+_Avoid_: step, stage, pass (those are overloaded with concurrency vocabulary like "compiler pass")
+
 ## Relationships
 
 - A **SourceFile** is parsed into one **ParsedFile** (which may carry **ParseErrors**).

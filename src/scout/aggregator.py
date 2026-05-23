@@ -3,30 +3,26 @@ from __future__ import annotations
 import datetime
 
 from scout import __version__
-from scout.config import ScoutConfig
 from scout.discovery import SourceFile
-from scout.metrics.base import FileReport, MetricConfig, MetricValue, RunReport, Severity
+from scout.metrics.base import FileReport, MetricValue, RunReport, Severity
 from scout.parsers.base import ParsedFile
 
 
 def aggregate(
-    config: ScoutConfig,
-    source_files: list[SourceFile],
-    worker_results: list[tuple[ParsedFile, list[MetricValue]]],
+    worker_results: list[tuple[SourceFile, ParsedFile, list[MetricValue]]],
     duration_ms: int,
+    repo_metrics: list[MetricValue] | None = None,
 ) -> RunReport:
     """Build a RunReport from per-file worker results."""
     parsed_files: list[ParsedFile] = []
     file_reports: list[FileReport] = []
 
-    for sf, (parsed, values) in zip(source_files, worker_results, strict=False):
+    for sf, parsed, values in worker_results:
         rel = str(sf.rel_path)
-        # Sort MetricValues within file by (metric_id, line, symbol) for determinism
         values_sorted = sorted(
             values,
             key=lambda mv: (mv.metric_id, mv.line or 0, mv.symbol or ""),
         )
-        # Override file path to use relative path
         values_rel = [
             MetricValue(
                 metric_id=mv.metric_id,
@@ -56,24 +52,10 @@ def aggregate(
     # Sort files by relative path for determinism
     pairs = sorted(zip(file_reports, parsed_files, strict=False), key=lambda p: p[0].path)
     file_reports = [p[0] for p in pairs]
-    parsed_files = [p[1] for p in pairs]
 
-    # Repo-level metrics (duplication)
-    repo_metrics: list[MetricValue] = []
-    if "duplication" in config.metrics:
-        from scout.metrics.duplication import compute as dup_compute
-
-        metric_cfg = MetricConfig(
-            thresholds=config.thresholds,
-            duplication_min_tokens=config.duplication_min_tokens,
-        )
-        dup_values = dup_compute(parsed_files, metric_cfg)
-        repo_metrics.extend(dup_values)
-
-    # Violations: MetricValues where threshold was actually exceeded
-    all_metrics: list[MetricValue] = [mv for fr in file_reports for mv in fr.metrics] + repo_metrics
+    effective_repo_metrics = repo_metrics if repo_metrics is not None else []
+    all_metrics: list[MetricValue] = [mv for fr in file_reports for mv in fr.metrics] + effective_repo_metrics
     violations = [mv for mv in all_metrics if _is_violation(mv)]
-    # Sort violations by (severity desc, metric_id, file, line)
     violations.sort(
         key=lambda mv: (
             _severity_order(mv.severity),
@@ -89,7 +71,7 @@ def aggregate(
         duration_ms=duration_ms,
         files_scanned=len(file_reports),
         files=file_reports,
-        repo_metrics=repo_metrics,
+        repo_metrics=effective_repo_metrics,
         violations=violations,
     )
 

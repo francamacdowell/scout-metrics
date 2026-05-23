@@ -113,10 +113,11 @@ def render_text(report: RunReport, no_color: bool = False) -> str:
                     color = _SEVERITY_COLOR.get(mv.severity, "white")
                     icon = _SEVERITY_ICON.get(mv.severity, "?")
                     loc_str = f"{mv.file}:{mv.line}" if mv.line else mv.file
+                    value_str = f"{mv.value:.1f}{'%' if mv.metric_id == 'duplication' else ''}"
                     tbl.add_row(
                         loc_str,
                         mv.symbol or "",
-                        f"[{color}]{mv.value:.1f}[/{color}]",
+                        f"[{color}]{value_str}[/{color}]",
                         f"[{color}]{icon}[/{color}]",
                     )
                 console.print(tbl)

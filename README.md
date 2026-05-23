@@ -1,6 +1,19 @@
 # scout
 
-A Python CLI tool for computing static code-quality metrics — Cyclomatic Complexity, Cognitive Complexity, Halstead, Maintainability Index, LOC, Duplication, CBO, LCOM — for Python, JavaScript, and TypeScript codebases.
+A Python CLI for static code-quality metrics on Python, JavaScript, and TypeScript codebases. See [Available metrics](#available-metrics) for the full list.
+
+## Available metrics
+
+| ID | Metric | What it measures | Scope |
+|----|--------|-----------------|-------|
+| `cc` | Cyclomatic Complexity | Counts decision branches (if / for / and / or) in a function. More branches = harder to test. | function |
+| `cognitive` | Cognitive Complexity | Like CC, but penalises deep nesting more heavily. Closer to how hard humans find code to read. | function |
+| `halstead` | Halstead | Counts unique operators and operands to estimate the mental effort needed to read a file. | file |
+| `mi` | Maintainability Index | A 0–100 score combining size, complexity, and Halstead. **Higher is better** (≥20 = healthy). | file |
+| `loc` | Lines of Code | Counts total lines, blank lines, comments, and real source lines (SLOC) per file. | file |
+| `duplication` | Duplication | Finds copy-pasted code chunks that appear in more than one file across the project. | repo |
+| `cbo` | Coupling Between Objects | Counts how many other classes a class depends on. More dependencies = more tangled. | class |
+| `lcom` | Lack of Cohesion of Methods | Measures whether a class's methods share data; high values mean unrelated code crammed together. | class |
 
 ## Installation
 
@@ -41,6 +54,8 @@ scout ./src --format json --output report.json
 ```
 
 ### Run only selected metrics
+
+Pass any combination of [metric IDs](#available-metrics) to `--metrics`.
 
 ```bash
 scout --metrics cc,cognitive,loc

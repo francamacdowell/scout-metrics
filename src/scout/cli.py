@@ -4,8 +4,21 @@ import logging
 import sys
 import time
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import typer
+from rich.console import Console
+from rich.logging import RichHandler
+from rich.progress import (
+    BarColumn,
+    MofNCompleteColumn,
+    Progress,
+    SpinnerColumn,
+    TaskProgressColumn,
+    TextColumn,
+    TimeElapsedColumn,
+    TimeRemainingColumn,
+)
 
 from scout.errors import (
     EXIT_CONFIG_ERROR,
@@ -18,6 +31,9 @@ from scout.errors import (
     DiscoveryError,
     ScoutIOError,
 )
+
+if TYPE_CHECKING:
+    from scout.metrics.base import MetricValue
 
 app = typer.Typer(add_completion=False, no_args_is_help=False)
 
@@ -56,7 +72,9 @@ def main(
         typer.echo(__version__)
         raise typer.Exit(0)
 
-    _setup_logging(quiet)
+    show_progress = _should_show_progress(quiet)
+    shared_console: Console | None = Console(file=sys.stderr, no_color=no_color) if show_progress else None
+    _setup_logging(quiet, console=shared_console)
 
     try:
         from scout.config import ScoutConfig
@@ -96,16 +114,71 @@ def main(
         from scout.output import write as write_report
         from scout.runner import run
 
-        source_files = scan(cfg)
+        # Phase 1: Discovering files
+        if show_progress and shared_console is not None:
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("Discovering files"),
+                console=shared_console,
+                transient=True,
+            ) as prog:
+                prog.add_task("")
+                source_files = scan(cfg)
+        else:
+            source_files = scan(cfg)
+
         if not source_files:
             typer.echo("No source files found.", err=True)
             raise typer.Exit(EXIT_OK)
 
+        # Phase 2: Computing file metrics
         t0 = time.monotonic()
-        worker_results = run(cfg, source_files)
+        if show_progress and shared_console is not None:
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("Computing file metrics"),
+                BarColumn(),
+                MofNCompleteColumn(),
+                TaskProgressColumn(),
+                TimeElapsedColumn(),
+                TimeRemainingColumn(),
+                console=shared_console,
+                transient=True,
+            ) as prog:
+                task = prog.add_task("", total=len(source_files))
+                worker_results = run(
+                    cfg,
+                    source_files,
+                    on_file_done=lambda _sf: prog.advance(task),
+                )
+        else:
+            worker_results = run(cfg, source_files)
         duration_ms = int((time.monotonic() - t0) * 1000)
 
-        report = aggregate(cfg, source_files, worker_results, duration_ms)
+        # Phase 3: Computing duplication (hoisted from aggregator; conditional on metric selection)
+        repo_metrics: list[MetricValue] = []
+        if "duplication" in cfg.metrics:
+            from scout.metrics.base import MetricConfig
+            from scout.metrics.duplication import compute as dup_compute
+
+            metric_cfg = MetricConfig(
+                thresholds=cfg.thresholds,
+                duplication_min_tokens=cfg.duplication_min_tokens,
+            )
+            parsed_files = [pf for _sf, pf, _vals in worker_results]
+            if show_progress and shared_console is not None:
+                with Progress(
+                    SpinnerColumn(),
+                    TextColumn("Computing duplication"),
+                    console=shared_console,
+                    transient=True,
+                ) as prog:
+                    prog.add_task("")
+                    repo_metrics = dup_compute(parsed_files, metric_cfg)
+            else:
+                repo_metrics = dup_compute(parsed_files, metric_cfg)
+
+        report = aggregate(worker_results, duration_ms, repo_metrics)
         write_report(report, cfg.output_format, cfg.output_path, no_color=cfg.no_color)
 
     except (ScoutIOError, DiscoveryError) as e:
@@ -123,6 +196,10 @@ def main(
     raise typer.Exit(EXIT_OK)
 
 
+def _should_show_progress(quiet: bool) -> bool:
+    return sys.stderr.isatty() and not quiet
+
+
 def _parse_thresholds(items: list[str]) -> dict[str, float]:
     result: dict[str, float] = {}
     for it in items:
@@ -136,12 +213,20 @@ def _parse_thresholds(items: list[str]) -> dict[str, float]:
     return result
 
 
-def _setup_logging(quiet: bool) -> None:
+def _setup_logging(quiet: bool, console: Console | None = None) -> None:
     level = logging.ERROR if quiet else logging.WARNING
-    logging.basicConfig(
-        level=level,
-        format="scout: %(message)s",
-        stream=sys.stderr,
-        force=True,
-    )
-    logging.getLogger("scout").setLevel(level)
+    scout_log = logging.getLogger("scout")
+    scout_log.setLevel(level)
+    scout_log.handlers.clear()
+    if console is not None:
+        handler = RichHandler(console=console, show_time=False, show_path=False, markup=False)
+        handler.setLevel(level)
+        scout_log.addHandler(handler)
+        scout_log.propagate = False
+    else:
+        logging.basicConfig(
+            level=level,
+            format="scout: %(message)s",
+            stream=sys.stderr,
+            force=True,
+        )

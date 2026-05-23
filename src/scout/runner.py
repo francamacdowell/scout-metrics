@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-import itertools
 import logging
 import os
-from concurrent.futures import ProcessPoolExecutor
+from collections.abc import Callable
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from scout.config import ScoutConfig
 from scout.discovery import SourceFile
@@ -24,7 +24,7 @@ def _worker_task(
     sf: SourceFile,
     metric_ids: tuple[str, ...],
     cfg: MetricConfig,
-) -> tuple[ParsedFile, list[MetricValue]]:
+) -> tuple[SourceFile, ParsedFile, list[MetricValue]]:
     try:
         source = sf.abs_path.read_text(encoding="utf-8", errors="replace")
     except OSError as e:
@@ -45,17 +45,18 @@ def _worker_task(
             maintainability_index=0.0,
             errors=[ParseError(line=0, message=str(e))],
         )
-        return empty, []
+        return sf, empty, []
 
     parsed = parse(sf.abs_path, source, sf.language)
     values = compute_file_metrics(parsed, metric_ids, cfg)
-    return parsed, values
+    return sf, parsed, values
 
 
 def run(
     config: ScoutConfig,
     files: list[SourceFile],
-) -> list[tuple[ParsedFile, list[MetricValue]]]:
+    on_file_done: Callable[[SourceFile], None] | None = None,
+) -> list[tuple[SourceFile, ParsedFile, list[MetricValue]]]:
     """Fan out per-file parsing and metric computation across workers."""
     if not files:
         return []
@@ -64,7 +65,6 @@ def run(
         thresholds=config.thresholds,
         duplication_min_tokens=config.duplication_min_tokens,
     )
-    # Filter to file-scope metric IDs (duplication is a RepoMetric, runs later)
     from scout.metrics import list_file_metric_ids
 
     file_metric_ids = tuple(mid for mid in config.metrics if mid in list_file_metric_ids())
@@ -73,20 +73,26 @@ def run(
     max_workers = config.jobs if config.jobs > 0 else os.cpu_count() or 1
 
     if max_workers == 1 or len(files) == 1:
-        # Single-process path — avoids pickling overhead, useful for tests and --jobs 1
-        return [_worker_task(sf, metric_ids, metric_cfg) for sf in files]
+        results: list[tuple[SourceFile, ParsedFile, list[MetricValue]]] = []
+        for sf in files:
+            result = _worker_task(sf, metric_ids, metric_cfg)
+            results.append(result)
+            if on_file_done is not None:
+                on_file_done(sf)
+        return results
 
     with ProcessPoolExecutor(
         max_workers=max_workers,
         initializer=_worker_init,
     ) as executor:
-        results = list(
-            executor.map(
-                _worker_task,
-                files,
-                itertools.repeat(metric_ids),
-                itertools.repeat(metric_cfg),
-                chunksize=8,
-            )
-        )
+        futures = [
+            executor.submit(_worker_task, sf, metric_ids, metric_cfg)
+            for sf in files
+        ]
+        results = []
+        for future in as_completed(futures):
+            result = future.result()
+            results.append(result)
+            if on_file_done is not None:
+                on_file_done(result[0])
     return results

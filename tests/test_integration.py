@@ -3,11 +3,12 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 from typer.testing import CliRunner
 
-from scout.cli import app
+from scout.cli import _should_show_progress, app
 from scout.errors import EXIT_OK, EXIT_VIOLATIONS
 
 runner = CliRunner()
@@ -176,3 +177,47 @@ def test_dup_sample_detects_duplication():
     dup = next((m for m in repo_metrics if m["metric_id"] == "duplication"), None)
     assert dup is not None
     assert dup["value"] > 0
+
+
+# ---------------------------------------------------------------------------
+# Progress UI gating
+# ---------------------------------------------------------------------------
+
+
+class TestShouldShowProgress:
+    def test_quiet_suppresses(self) -> None:
+        with patch("sys.stderr") as mock_stderr:
+            mock_stderr.isatty.return_value = True
+            assert _should_show_progress(quiet=True) is False
+
+    def test_non_tty_suppresses(self) -> None:
+        with patch("sys.stderr") as mock_stderr:
+            mock_stderr.isatty.return_value = False
+            assert _should_show_progress(quiet=False) is False
+
+    def test_tty_not_quiet_enables(self) -> None:
+        with patch("sys.stderr") as mock_stderr:
+            mock_stderr.isatty.return_value = True
+            assert _should_show_progress(quiet=False) is True
+
+
+class TestProgressInCLI:
+    def test_cli_runner_has_no_tty_no_crash(self, tmp_path: Path) -> None:
+        """CliRunner is not a TTY; progress must be silently suppressed."""
+        (tmp_path / "a.py").write_text("x = 1\n")
+        result = runner.invoke(app, [str(tmp_path), "--format", "json"])
+        assert result.exit_code in (EXIT_OK, EXIT_VIOLATIONS)
+        assert result.exception is None
+
+    def test_quiet_flag_suppresses_progress(self, tmp_path: Path) -> None:
+        (tmp_path / "a.py").write_text("x = 1\n")
+        result = runner.invoke(app, [str(tmp_path), "--quiet", "--format", "json"])
+        assert result.exit_code in (EXIT_OK, EXIT_VIOLATIONS)
+        assert result.exception is None
+
+    def test_json_output_unaffected_by_progress_flag(self, tmp_path: Path) -> None:
+        """Stdout JSON must be identical whether progress would be shown or not."""
+        (tmp_path / "a.py").write_text("def f(x):\n    return x\n")
+        r1 = runner.invoke(app, [str(tmp_path), "--format", "json"])
+        r2 = runner.invoke(app, [str(tmp_path), "--format", "json", "--quiet"])
+        assert json.loads(r1.output)["files"] == json.loads(r2.output)["files"]
